@@ -13,6 +13,23 @@ Install
 
 ```pip install flask_fileupload```
 
+Configuration
+-------------
+This Configuration is optional and default is "/upload"
+
+```FLASK_FILEUPLOAD_PREFIX="/any/prefix/u/want```
+
+Standalone
+----------
+```python
+from flask import Flask
+from flask_fileupload import FlaskFileUpload
+
+app = Flask(__name__)
+app.config.from_object("config")
+ffu = FlaskFileUpload(app)
+```
+
 Interacting with Flask-Blogging
 -------------------------------
 
@@ -41,6 +58,8 @@ blog_engine = BloggingEngine(app, sql_storage)
 ```python
 url_for("flask_fileupload.upload")
 ```
+
+4. Find the extension under _/upload_
 
 Previews
 --------
