@@ -1,8 +1,8 @@
-{% extends 'flask_file_upload/base.html' %}
+{% extends 'flask_fileupload/base.html' %}
 
 {% block extrastyle %}
     <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
-    <link href="{{ url_for('flask_file_upload.static', filename='css/zoom.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('flask_fileupload.static', filename='css/zoom.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block main %}
@@ -47,7 +47,7 @@
                         <td class="col-md-6"><a href="{{ url_for('static', filename='upload/') }}{{ file }}">{{ file }}</a></td>
                         <td class="col-md-4 path-input-col"><input class="path-input" title="path" style="width: 100%;" type="text" readonly></td>
                         <td class="col-md-1"><img class="thumbnail zoom" style="height: 30px; width: auto; max-width:30px;" src="{{ url_for('static', filename='upload/') }}{{ file }}"> </td>
-                        <td class="col-md-1"><a data-href="{{ url_for('flask_file_upload.upload_delete', filename=file) }}" data-toggle="modal" data-target="#confirm-delete"><span role="button" class="glyphicon glyphicon-trash"></span></a></td>
+                        <td class="col-md-1"><a data-href="{{ url_for('flask_fileupload.upload_delete', filename=file) }}" data-toggle="modal" data-target="#confirm-delete"><span role="button" class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                 {% endfor %}
             </tbody>

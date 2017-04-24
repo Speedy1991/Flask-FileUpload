@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from flask_file_upload import FlaskFileUpload
+from flask import Flask
+from flask_fileupload import FlaskFileUpload
 
 app = Flask(__name__)
 app.config.from_object("config")

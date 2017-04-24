@@ -11,10 +11,9 @@ import ast
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 
-with open('flask_file_upload/__init__.py', 'rb') as f:
+with open('flask_fileupload/__init__.py', 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
-
 
 
 BASE_PATH = os.path.dirname(__file__)
