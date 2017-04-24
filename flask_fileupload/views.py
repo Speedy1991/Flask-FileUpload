@@ -3,7 +3,6 @@ from flask import current_app as app
 import os
 from .forms import UploadForm
 from werkzeug.utils import secure_filename
-from flask_login import login_required
 
 
 def _get_abs_img_path():
@@ -17,7 +16,6 @@ def _get_abs_img_path():
     return ABS_IMG_FOLDER
 
 
-#@login_required
 def upload():
     existing_files = list(sorted([f for f in os.listdir(_get_abs_img_path())]))
     filename = ""
@@ -48,13 +46,12 @@ def upload():
         flash("Errors on Form. Check if you provide all needed data!",
               category="danger")
 
-    return render_template("flask_file_upload/upload.html",
+    return render_template("flask_fileupload/../upload.html",
                            existing_files=existing_files,
                            new_file=filename,
                            form=form)
 
 
-#@login_required
 def upload_delete(filename):
     existing_files = list(sorted([f for f in os.listdir(_get_abs_img_path())]))
     if filename not in existing_files:
@@ -62,15 +59,15 @@ def upload_delete(filename):
     else:
         os.remove(os.path.join(_get_abs_img_path(), filename))
         flash("File removed: " + filename, category="info")
-    return redirect(url_for("flask_file_upload.upload"))
+    return redirect(url_for("flask_fileupload.upload"))
 
 
-def create_blueprint(import_name):
-    fileupload_app = Blueprint("flask_file_upload", import_name,
+def create_blueprint(import_name, url_prefix):
+    fileupload_app = Blueprint("flask_fileupload", import_name,
                                template_folder="templates",
                                static_folder="static",
                                static_url_path="/static",
-                               url_prefix="/upload"
+                               url_prefix=url_prefix
                                )
 
     fileupload_app.add_url_rule("/",
