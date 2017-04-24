@@ -3,6 +3,7 @@ from flask import current_app as app
 import os
 from .forms import UploadForm
 from werkzeug.utils import secure_filename
+from flask_security import login_required
 
 
 def _get_abs_img_path():
@@ -16,6 +17,7 @@ def _get_abs_img_path():
     return ABS_IMG_FOLDER
 
 
+@login_required
 def upload():
     existing_files = list(sorted([f for f in os.listdir(_get_abs_img_path())]))
     filename = ""
@@ -52,6 +54,7 @@ def upload():
                            form=form)
 
 
+@login_required
 def upload_delete(filename):
     existing_files = list(sorted([f for f in os.listdir(_get_abs_img_path())]))
     if filename not in existing_files:

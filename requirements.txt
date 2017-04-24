@@ -2,3 +2,4 @@ flask
 flask-wtf
 werkzeug
 flask-login
+flask-security
