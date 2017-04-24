@@ -1,5 +1,0 @@
-include requirements.txt
-recursive-include flask_fileupload/templates *.*
-recursive-include flask_fileupload/static *.*
-recursive-include test *
-recursive-exclude docs *

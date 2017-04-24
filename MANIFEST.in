@@ -1,0 +1,5 @@
+include LICENSE
+include requirements.txt
+recursive-include flask_fileupload/templates *
+recursive-include flask_fileupload/static *
+recursive-exclude docs *

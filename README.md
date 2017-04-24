@@ -61,6 +61,18 @@ url_for("flask_fileupload.upload")
 
 4. Find the extension under _/upload_
 
+Security
+--------
+
+```python
+from flask_security import current_user
+# from flask_login import current_user
+@ffu.blueprint.before_request
+def login_required():
+    if not current_user.is_authenticated():
+        return redirect(url_for("security.login"))
+```
+
 Previews
 --------
 
