@@ -46,7 +46,7 @@ def upload():
         flash("Errors on Form. Check if you provide all needed data!",
               category="danger")
 
-    return render_template("flask_fileupload/../upload.html",
+    return render_template("flask_fileupload/upload.html",
                            existing_files=existing_files,
                            new_file=filename,
                            form=form)
