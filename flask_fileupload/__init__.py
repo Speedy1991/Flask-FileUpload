@@ -1,4 +1,4 @@
 from .engine import FlaskFileUpload
 
 __author__ = 'Arthur Holzner'
-__version__ = '0.2.0'
+__version__ = '0.2.1'

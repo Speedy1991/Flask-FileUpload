@@ -67,8 +67,9 @@ Security
 ```python
 from flask_security import current_user
 # from flask_login import current_user
-@ffu.blueprint.before_request
-def login_required():
+
+@fue.auth_loader
+def auth_loader():
     if not current_user.is_authenticated():
         return redirect(url_for("security.login"))
 ```
