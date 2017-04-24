@@ -44,3 +44,10 @@ url_for("flask_fileupload.upload")
 
 Previews
 --------
+
+![](https://github.com/Speedy1991/Flask-FileUpload/blob/master/doc/img/overview.png)
+----
+![](https://github.com/Speedy1991/Flask-FileUpload/blob/master/doc/img/sort_and_searchable.png)
+----
+![](https://github.com/Speedy1991/Flask-FileUpload/blob/master/doc/img/zoom.png)
+
