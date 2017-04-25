@@ -1,2 +1,3 @@
 - Make File extensions generic
 - Tests / CI /Travis
+- Flask-Uploads as backend?
