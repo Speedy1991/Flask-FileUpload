@@ -11,7 +11,7 @@ A simple file upload flask extension.
 Install
 -------
 
-```pip install flask_fileupload```
+```pip install Flask-FileUpload```
 
 Configuration
 -------------
@@ -70,7 +70,7 @@ from flask_security import current_user
 
 @fue.auth_loader
 def auth_loader():
-    if not current_user.is_authenticated():
+    if not current_user.is_authenticated:
         return redirect(url_for("security.login"))
 ```
 
