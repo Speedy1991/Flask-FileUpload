@@ -22,7 +22,7 @@ class Storage(object):
     def __init__(self, app):
         self.ALLOWED = app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())
         self.ALLOW_ALL = app.config.get("FILEUPLOAD_ALLOW_ALL_EXTENSIONS", False)
-        self.IMG_FOLDER = app.config.get("FLASK_FILEUPLOAD_IMG_FOLDER", "upload")
+        self.IMG_FOLDER = app.config.get("FILEUPLOAD_IMG_FOLDER", "upload")
 
         self.root = app.root_path
         self.abs_img_folder = os.path.join(self.root, "static", self.IMG_FOLDER)
