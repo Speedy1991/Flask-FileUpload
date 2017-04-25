@@ -39,7 +39,7 @@ setup(
     platforms='any',
     install_requires=get_requirements(),
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',

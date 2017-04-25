@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask
 from flask_fileupload import FlaskFileUpload
 
 app = Flask(__name__)
@@ -9,4 +9,6 @@ fue = FlaskFileUpload(app)
 
 @fue.auth_loader
 def auth_loader():
-    return redirect("https://google.de")
+    pass
+    #return redirect("https://google.de")
+

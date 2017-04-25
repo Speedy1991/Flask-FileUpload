@@ -1,3 +1,5 @@
+from .storage import Storage
+
 
 class FlaskFileUpload(object):
 
@@ -5,6 +7,7 @@ class FlaskFileUpload(object):
         self.app = None
         self.config = None
         self.auth_callback = None
+        self.storage = None
 
         if app is not None:
             self.init_app(app)
@@ -14,11 +17,13 @@ class FlaskFileUpload(object):
         return callback
 
     def init_app(self, app):
+
         self.app = app
         self.config = self.app.config
+        self.storage = Storage(app)
 
         from .views import create_blueprint
-        bp = create_blueprint(__name__, url_prefix=self.app.config.get("FLASK_FILEUPLOAD_PREFIX", "/upload"))
+        bp = create_blueprint(__name__, app=app, storage=self.storage)
 
         @bp.before_request
         def before_request():
@@ -27,7 +32,7 @@ class FlaskFileUpload(object):
 
         self.app.register_blueprint(
             bp,
-            url_prefix=self.config.get("FILE_UPLOAD_PREFIX")
+            url_prefix=self.config.get("FILE_UPLOAD_PREFIX", "/upload")
         )
 
 

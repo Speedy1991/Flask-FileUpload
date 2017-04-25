@@ -15,9 +15,18 @@ Install
 
 Configuration
 -------------
-This Configuration is optional and default is "/upload"
+__Required__
+```python
+SECRET_KEY="Any Secret key u want"
+```
 
-```FLASK_FILEUPLOAD_PREFIX="/any/prefix/u/want```
+__Optional__
+
+```python
+FILEUPLOAD_PREFIX="/any/prefix/u/want"
+FILEUPLOAD_ALLOWED_EXTENSIONS=["list", "of", "file", "extensions"]  # Allow only these extensions
+FILEUPLOAD_ALLOW_ALL_EXTENSIONS=True                                # Allow all extensions
+```
 
 Standalone
 ----------
