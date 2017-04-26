@@ -19,7 +19,6 @@ class FlaskFileUpload(object):
     def init_app(self, app):
 
         self.app = app
-        self.config = self.app.config
         self.storage = Storage(app)
 
         from .views import create_blueprint
@@ -32,7 +31,7 @@ class FlaskFileUpload(object):
 
         self.app.register_blueprint(
             bp,
-            url_prefix=self.config.get("FILE_UPLOAD_PREFIX", "/upload")
+            url_prefix=app.config.get("FILE_UPLOAD_PREFIX", "/upload")
         )
 
 
