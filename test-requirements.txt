@@ -1,0 +1,5 @@
+flask
+flask-wtf
+werkzeug
+flask-login
+pytest
