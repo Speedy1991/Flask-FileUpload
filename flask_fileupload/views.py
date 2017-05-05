@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, request, url_for
 from .forms import UploadForm
 from .storage import StorageNotAllowed, StorageExists, StorageNotExists
+from flask_login import login_required
 
 
 def create_blueprint(import_name, app, storage):
@@ -13,6 +14,7 @@ def create_blueprint(import_name, app, storage):
                    )
 
     @bp.route("/", methods=["GET", "POST"])
+    @login_required
     def upload():
         form = UploadForm()
         if form.validate_on_submit():
@@ -31,6 +33,7 @@ def create_blueprint(import_name, app, storage):
                                form=form)
 
     @bp.route("/delete/<filename>", methods=["GET"])
+    @login_required
     def upload_delete(filename):
         try:
             storage.delete(filename)
