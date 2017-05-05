@@ -75,14 +75,24 @@ Security
 --------
 
 ```python
-from flask_security import current_user
-# from flask_login import current_user
+from flask_login import LoginManager, UserMixin
 
-@fue.auth_loader
-def auth_loader():
-    if not current_user.is_authenticated:
-        return redirect(url_for("security.login"))
+lm = LoginManager(app)
+
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+
+@lm.user_loader
+def load_user(user_id):
+    return User(user_id)
 ```
+
+TODO's
+------
+- Tests / CI /Travis
+- More storages
 
 Previews
 --------
