@@ -10,7 +10,6 @@ def create_blueprint(import_name, app, storage):
                    template_folder="templates",
                    static_folder="static",
                    static_url_path="/static",
-                   url_prefix=app.config.get("FILEUPLOAD_PREFIX", "/upload")
                    )
 
     @bp.route("/", methods=["GET", "POST"])
@@ -28,9 +27,11 @@ def create_blueprint(import_name, app, storage):
 
             return redirect(request.url)
 
+        img_folder = url_for("static", filename=storage.img_folder)
         return render_template("fileupload/upload.html",
                                existing_files=storage.get_existing_files(),
-                               form=form)
+                               form=form,
+                               img_folder=img_folder)
 
     @bp.route("/delete/<filename>", methods=["GET"])
     @login_required
