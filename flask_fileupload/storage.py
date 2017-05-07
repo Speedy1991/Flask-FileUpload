@@ -37,7 +37,6 @@ class Storage(object):
 
     def store(self, filename, file_data):
         filename = secure_filename(filename)
-        print(type(file_data))
 
         if filename in self.get_existing_files():
             raise StorageExists()

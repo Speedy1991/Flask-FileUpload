@@ -27,7 +27,8 @@ def create_blueprint(import_name, app, storage):
 
             return redirect(request.url)
 
-        img_folder = url_for("static", filename=storage.img_folder) + "/"
+        img_folder = url_for("static", filename=storage.img_folder)
+        img_folder = img_folder if img_folder.endswith("/") else img_folder + "/"
         return render_template("fileupload/upload.html",
                                existing_files=storage.get_existing_files(),
                                form=form,
