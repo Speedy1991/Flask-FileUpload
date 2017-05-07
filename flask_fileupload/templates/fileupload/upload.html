@@ -78,7 +78,13 @@
 
             // Register autofill on new selected image upload
             document.getElementById("upload_img").addEventListener("change", function(){
-                document.getElementById("upload_name").value = document.getElementById("upload_img").files[0].name
+                var file_array = document.getElementById("upload_img").files[0].name;
+                {% if config.FILEUPLOAD_RANDOM_FILE_APPENDIX %}
+                    file_array = file_array.split(".");
+                    file_array.splice(file_array.length-1, 0, ["_", Math.random().toString(36).substring(6), "."].join(""));
+                    file_array = file_array.join("");
+                {% endif %}
+                document.getElementById("upload_name").value = file_array
             });
 
             // Select all on click
