@@ -1,4 +1,4 @@
-### 0.4.1
+### 0.4.2
 
 ##### FILEUPLOAD_RANDOM_FILE_APPENDIX
 
@@ -8,5 +8,5 @@ Frontend append random hash to filename (easier handling of unique filenames) if
 
 Server can convert filenames to snake_case if enabled 
 
-### < 0.4.0
+### < 0.4.1
 Initial setup and fixes
