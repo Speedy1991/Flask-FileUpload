@@ -28,7 +28,7 @@
         <form method="post" enctype=multipart/form-data>
             <div class="form-group">
                 {{ form.csrf_token }}
-                {{ form.upload_name(required=True, class_="form-control") }}
+                {{ form.upload_name(required=True, class_="form-control", placeholder=config.FILEUPLOAD_ALLOWED_EXTENSIONS|join(", ")) }}
                 {{ form.upload_img }}
                 <input class="btn btn-primary pull-right" type="submit" value="Submit">
             </div>
@@ -78,13 +78,13 @@
 
             // Register autofill on new selected image upload
             document.getElementById("upload_img").addEventListener("change", function(){
-                var file_array = document.getElementById("upload_img").files[0].name;
+                var file = document.getElementById("upload_img").files[0].name;
                 {% if config.FILEUPLOAD_RANDOM_FILE_APPENDIX %}
-                    file_array = file_array.split(".");
-                    file_array.splice(file_array.length-1, 0, ["_", Math.random().toString(36).substring(6), "."].join(""));
-                    file_array = file_array.join("");
+                    var position = file.lastIndexOf(".");
+                    var hash = ["_", Math.random().toString(36).substring(6)].join("");
+                    file = [file.slice(0, position), hash, file.slice(position)].join("");
                 {% endif %}
-                document.getElementById("upload_name").value = file_array
+                document.getElementById("upload_name").value = file
             });
 
             // Select all on click

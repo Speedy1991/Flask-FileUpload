@@ -29,6 +29,8 @@ FILEUPLOAD_IMG_FOLDER="folder"                                      # Where to s
 FILEUPLOAD_PREFIX="/any/prefix/u/want"                              # Blueprint prefix
 FILEUPLOAD_ALLOWED_EXTENSIONS=["list", "of", "file", "extensions"]  # Allow only these extensions
 FILEUPLOAD_ALLOW_ALL_EXTENSIONS=True                                # Allow all extensions
+FILEUPLOAD_RANDOM_FILE_APPENDIX = True                              # Append a random 6 hash string to selected file
+FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                             # Converts filenames to snake_case
 ```
 
 HowTo

@@ -1,5 +1,6 @@
 from werkzeug.utils import secure_filename
 import os
+import re
 
 
 class StorageNotAllowed(Exception):
@@ -23,6 +24,7 @@ class Storage(object):
         self.allowed = app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())
         self.all_allowed = app.config.get("FILEUPLOAD_ALLOW_ALL_EXTENSIONS", False)
         self.img_folder = app.config.get("FILEUPLOAD_IMG_FOLDER", "upload")
+        self.snake_case = app.config.get("FILEUPLOAD_CONVERT_TO_SNAKE_CASE", False)
 
         self.root = app.root_path
         self.abs_img_folder = os.path.join(self.root, "static", self.img_folder)
@@ -37,6 +39,10 @@ class Storage(object):
 
     def store(self, filename, file_data):
         filename = secure_filename(filename)
+
+        if self.snake_case:
+            filename = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', filename)
+            filename = re.sub('([a-z0-9])([A-Z])', r'\1_\2', filename).lower()
 
         if filename in self.get_existing_files():
             raise StorageExists()
