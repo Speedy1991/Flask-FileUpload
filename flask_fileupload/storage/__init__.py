@@ -15,10 +15,20 @@ class StorageNotExists(Exception):
 
 class AbstractStorage(object):
     def __init__(self, app):
+        self.app = app
         self.allowed = app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())
         self.all_allowed = app.config.get("FILEUPLOAD_ALLOW_ALL_EXTENSIONS", False)
         self.snake_case = app.config.get("FILEUPLOAD_CONVERT_TO_SNAKE_CASE", False)
-        self.app = app
+
+        self.app.jinja_env.globals.update(fu_get_existing_files=self.get_abs_existing_files)
+        self.app.jinja_env.filters["fu_filename"] = AbstractStorage.filename
+
+    def get_abs_existing_files(self):
+        return [self.get_abs_path() + f for f in self.get_existing_files()]
+
+    @staticmethod
+    def filename(full_file_path):
+        return full_file_path[full_file_path.rfind("/")+1:]
 
     def get_existing_files(self):
         """
