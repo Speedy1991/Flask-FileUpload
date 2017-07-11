@@ -24,7 +24,7 @@ class AbstractStorage(object):
         self.app.jinja_env.filters["fu_filename"] = AbstractStorage.filename
 
     def get_abs_existing_files(self):
-        return [self.get_abs_path() + f for f in self.get_existing_files()]
+        return [self.get_base_path() + f for f in self.get_existing_files()]
 
     @staticmethod
     def filename(full_file_path):
@@ -36,7 +36,7 @@ class AbstractStorage(object):
         """
         raise NotImplementedError()
 
-    def get_abs_path(self):
+    def get_base_path(self):
         """
         :return: base path where the image can be found
         """

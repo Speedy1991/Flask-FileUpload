@@ -19,7 +19,7 @@ class LocalStorage(AbstractStorage):
     def get_existing_files(self):
         return [f for f in os.listdir(self.abs_img_folder)]
 
-    def get_abs_path(self):
+    def get_base_path(self):
         return url_for("static", filename=self.img_folder)
 
     def store(self, filename, file_data):
