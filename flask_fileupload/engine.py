@@ -1,11 +1,11 @@
-from .storage import Storage
+from .storage.storage import LocalStorage
 
 
 class FlaskFileUpload(object):
 
-    def __init__(self, app=None):
+    def __init__(self, app=None, storage=None):
         self.app = None
-        self.storage = None
+        self.storage = storage
         self.prefix = None
 
         if app is not None:
@@ -14,7 +14,7 @@ class FlaskFileUpload(object):
     def init_app(self, app):
 
         self.app = app
-        self.storage = Storage(app)
+        self.storage = self.storage or LocalStorage(app)
         self.prefix = app.config.get("FILEUPLOAD_PREFIX", "/upload")
 
         from .views import create_blueprint
@@ -24,5 +24,3 @@ class FlaskFileUpload(object):
             bp,
             url_prefix=self.prefix
         )
-
-
