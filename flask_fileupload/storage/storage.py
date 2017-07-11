@@ -2,7 +2,7 @@ import os
 
 from werkzeug.utils import secure_filename
 from flask import url_for
-from storage.utils import convert_to_snake_case
+from .utils import convert_to_snake_case
 from . import AbstractStorage, StorageExists, StorageNotExists, StorageNotAllowed
 
 
