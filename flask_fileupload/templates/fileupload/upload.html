@@ -42,12 +42,13 @@
                 <tr><th>Name</th><th>Path</th><th>Preview</th><th>Del</th></tr>
             </thead>
             <tbody>
-                {% for file in existing_files %}
+                {% for file_abs in fu_get_existing_files() %}
+                    {% set filename = file_abs|fu_filename %}
                     <tr>
-                        <td class="col-md-6"><a href="{{img_folder}}{{ file }}">{{ file }}</a></td>
-                        <td class="col-md-4 path-input-col"><input class="path-input" title="path" style="width: 100%;" type="text" readonly></td>
-                        <td class="col-md-1"><img class="thumbnail zoom" style="height: 30px; width: auto; max-width:30px;" src="{{img_folder}}{{ file }}"> </td>
-                        <td class="col-md-1"><a data-href="{{ url_for('flask_fileupload.upload_delete', filename=file) }}" data-toggle="modal" data-target="#confirm-delete"><span role="button" class="glyphicon glyphicon-trash"></span></a></td>
+                        <td class="col-md-6"><a href="{{ file_abs }}">{{ file_abs|fu_filename }}</a></td>
+                        <td class="col-md-4 path-input-col"><input class="path-input" title="path" style="width: 100%;" type="text" readonly value="{{file_abs}}"></td>
+                        <td class="col-md-1"><img class="thumbnail zoom" style="height: 30px; width: auto; max-width:30px;" src="{{file_abs}}"> </td>
+                        <td class="col-md-1"><a data-href="{{ url_for('flask_fileupload.upload_delete', filename=filename) }}" data-toggle="modal" data-target="#confirm-delete"><span role="button" class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -66,14 +67,6 @@
                 "columnDefs":[
                     {"orderable": false, "targets": [1, 2, 3]}
                 ]
-            });
-
-            var pathArray = window.location.href.split("/");
-            // Find all input elements, get first column for name and build the full path
-            [].forEach.call(document.getElementsByClassName("path-input-col"), function(el){
-                var filename = $(el).parents('tr:first').find('td:first').text();
-                var url = pathArray[0] + "//" + pathArray[2] + "{{ img_folder }}" + filename;
-                $(el).find('input').val(url);
             });
 
             // Register autofill on new selected image upload
