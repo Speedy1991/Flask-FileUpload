@@ -33,6 +33,23 @@ FILEUPLOAD_RANDOM_FILE_APPENDIX = True                              # Append a r
 FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                             # Converts filenames to snake_case
 ```
 
+jinja2 method and filter 
+------------------------
+ 
+```python 
+fu_get_existing_files 
+fu_filename 
+```` 
+They can be used _everywhere_ in your jinja template for e.g: list all available files. Combined you can do something like: 
+ 
+```python 
+<ul> 
+  {% for file in fu_get_existing_files() %} 
+    <li><a href="{{ file }}">{{ file|fu_filename }} </a></li> 
+  {% endfor %} 
+</ul> 
+``` 
+ 
 HowTo
 ----------
 ```python
