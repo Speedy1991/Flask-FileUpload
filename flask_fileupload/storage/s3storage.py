@@ -11,15 +11,16 @@ class S3Storage(AbstractStorage):
         super(S3Storage, self).__init__(app)
         self.bucket_name = app.config.get("FILEUPLOAD_S3_BUCKET", "flask_fileupload")
         self.s3 = boto3.client('s3')
+        self.s3_res = boto3.resource('s3')
         response = self.s3.list_buckets()
         buckets = [bucket['Name'] for bucket in response['Buckets']]
         #self.abs_img_path = '{}/{}'.format(self.s3.meta.endpoint_url, self.bucket_name)
         if self.bucket_name not in buckets:
             self.s3.create_bucket(Bucket=self.bucket_name)
-        self.bucket = self.s3.Bucket(self.bucket_name)
+        self.bucket = self.s3_res.Bucket(self.bucket_name)
 
     def get_existing_files(self):
-        return [f.key for f in self.bucket.obects.all()]
+        return [f.key for f in self.bucket.objects.all()]
 
     def store(self, filename, file_data):
         filename = secure_filename(filename)
@@ -36,7 +37,7 @@ class S3Storage(AbstractStorage):
         return filename
 
     def get_base_path(self):
-        return '{}/{}'.format(self.s3.meta.endpoint_url, self.bucket_name)
+        return '{}/{}/'.format(self.s3.meta.endpoint_url, self.bucket_name)
 
     def delete(self, filename):
         if not self._exists(filename):
