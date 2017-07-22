@@ -12,6 +12,7 @@ class S3Storage(AbstractStorage):
     def __init__(self, app):
         super(S3Storage, self).__init__(app)
         self.bucket_name = app.config.get("FILEUPLOAD_S3_BUCKET", "flask_fileupload")
+        self.acl = app.config.get("FILEUPLOAD_S3_ACL", "public-read")
         self.s3 = boto3.client('s3')
         self.s3_res = boto3.resource('s3')
         response = self.s3.list_buckets()
@@ -33,7 +34,8 @@ class S3Storage(AbstractStorage):
         if self.all_allowed or any(filename.endswith('.' + x) for x in self.allowed):
             self.s3.put_object(Bucket=self.bucket_name,
                                Key=filename,
-                               Body=file_data)
+                               Body=file_data,
+                               ACL=self.acl)
         else:
             raise StorageNotAllowed()
         return filename
