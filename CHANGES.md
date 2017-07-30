@@ -1,5 +1,14 @@
-### 0.4.2
+### 0.5.0
+Added S3 Storage (Thank you @gouthambs)
+##### FILEUPLOAD_S3_BUCKET
 
+Description
+
+##### FILEUPLOAD_S3_ACL
+
+Description
+
+### 0.4.2
 ##### FILEUPLOAD_RANDOM_FILE_APPENDIX
 
 Frontend append random hash to filename (easier handling of unique filenames) if enabled  

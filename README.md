@@ -33,6 +33,12 @@ FILEUPLOAD_RANDOM_FILE_APPENDIX = True                              # Append a r
 FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                             # Converts filenames to snake_case
 ```
 
+__S3 Storage__
+```python
+FILEUPLOAD_S3_BUCKET=""
+FILEUPLOAD_S3_ACL=""
+```
+
 jinja2 method and filter 
 ------------------------
  
@@ -51,7 +57,7 @@ They can be used _everywhere_ in your jinja template for e.g: list all available
 ``` 
  
 HowTo
-----------
+-----
 ```python
 from flask import Flask
 from flask_fileupload import FlaskFileUpload
@@ -71,6 +77,18 @@ def load_user(user_id):
     return User(user_id)
 ```
 
+Change Storage
+--------------
+
+```python
+from flask_fileupload import FlaskFileUpload
+from flask_fileupload.storage.s3storage import S3Storage
+...
+s3storage = S3Storage()
+ffu = FlaskFileUpload(app, s3storage)
+```
+
+If no storage is provided, the default storage will be taken
 
 Previews
 --------

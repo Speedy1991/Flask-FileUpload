@@ -1,12 +1,10 @@
-import os
 import boto3
 from werkzeug.utils import secure_filename
-from flask import url_for
 from .utils import convert_to_snake_case
 from . import AbstractStorage, StorageExists, StorageNotExists, StorageNotAllowed
 
-#TODO: Upload needs to have proper permissons public/private
-#TODO: The get_existing_files method needs to handle subfolders
+#Enhancement: Upload needs to have proper permissons public/private
+#Enhancement: The get_existing_files method needs to handle subfolders
 
 class S3Storage(AbstractStorage):
     def __init__(self, app):
