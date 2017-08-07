@@ -35,9 +35,20 @@ FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                             # Converts f
 
 __S3 Storage__
 ```python
-FILEUPLOAD_S3_BUCKET=""
-FILEUPLOAD_S3_ACL=""
+FILEUPLOAD_S3_BUCKET = 'sample-bucket-name'                         # name of the S3 bucket
+FILEUPLOAD_S3_ACL = 'public-read'                                   # S3 permission
 ```
+
+__S3 permission options:__
+
+- public-read
+- private
+- public-read-write
+- authenticated-read
+- aws-exec-read
+- bucket-owner-read
+- bucket-owner-full-control
+
 
 jinja2 method and filter 
 ------------------------

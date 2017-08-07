@@ -1,21 +1,9 @@
 ### 0.5.0
-Added S3 Storage (Thank you @gouthambs)
-##### FILEUPLOAD_S3_BUCKET
-
-Description
-
-##### FILEUPLOAD_S3_ACL
-
-Description
+- Added S3 Storage (Thank you @gouthambs)
 
 ### 0.4.2
-##### FILEUPLOAD_RANDOM_FILE_APPENDIX
-
-Frontend append random hash to filename (easier handling of unique filenames) if enabled  
-
-##### FILEUPLOAD_CONVERT_TO_SNAKE_CASE
-
-Server can convert filenames to snake_case if enabled 
+- Frontend append random hash to filename (easier handling of unique filenames) if enabled  
+- Server can convert filenames to snake_case if enabled 
 
 ### < 0.4.1
-Initial setup and fixes
+- Initial setup and fixes
