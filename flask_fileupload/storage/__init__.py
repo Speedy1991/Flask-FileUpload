@@ -58,7 +58,7 @@ class AbstractStorage(object):
         if last_dot == -1:
             raise StorageNotAllowed()
         extension = filename[last_dot:].lower()
-        if not len(extension):
+        if len(extension) == 1:  # Just a dot
             raise StorageNotAllowed()
         return filename[:last_dot] + extension
 

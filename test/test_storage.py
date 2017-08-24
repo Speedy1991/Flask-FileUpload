@@ -81,4 +81,5 @@ class TestPermissions(TestCase):
 
         with pytest.raises(StorageNotAllowed):
             AbstractStorage._lower_file_extension("dummypng")
-
+        with pytest.raises(StorageNotAllowed):
+            AbstractStorage._lower_file_extension("dummypng.")
