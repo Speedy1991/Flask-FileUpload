@@ -6,7 +6,7 @@ import shutil
 import io
 from werkzeug.datastructures import FileStorage
 import pytest
-from flask_fileupload.storage import StorageExists, StorageNotAllowed, StorageNotExists
+from flask_fileupload.storage import StorageExists, StorageNotAllowed, StorageNotExists, AbstractStorage
 import os
 
 
@@ -47,7 +47,6 @@ class TestPermissions(TestCase):
         self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.jpg")))
 
     def test_delete_file(self):
-
         self.ffu.storage.store("dummy.png", self.fs)
         self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.png")))
         self.ffu.storage.delete("dummy.png")
@@ -65,3 +64,21 @@ class TestPermissions(TestCase):
     def test_exception_file_not_exists(self):
         with pytest.raises(StorageNotExists):
             self.ffu.storage.delete("abc.de")
+
+    def test_case_insensitive(self):
+        self.ffu.storage.store("dummy.jPg", self.fs)
+        self.ffu.storage.store("dummy.PNG", self.fs)
+        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.png")))
+        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.jpg")))
+        with pytest.raises(StorageExists):
+            self.ffu.storage.store("dummy.jpg", self.fs)
+
+    def test_lower_file_extension(self):
+        self.assertEqual(AbstractStorage._lower_file_extension("dummy.png"), "dummy.png")
+        self.assertEqual(AbstractStorage._lower_file_extension("dummy.pNg"), "dummy.png")
+        self.assertEqual(AbstractStorage._lower_file_extension("dummy.PNg"), "dummy.png")
+        self.assertEqual(AbstractStorage._lower_file_extension("dummy.PNG"), "dummy.png")
+
+        with pytest.raises(StorageNotAllowed):
+            AbstractStorage._lower_file_extension("dummypng")
+

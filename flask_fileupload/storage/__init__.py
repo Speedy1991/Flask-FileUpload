@@ -1,3 +1,7 @@
+from werkzeug.utils import secure_filename
+from .utils import convert_to_snake_case
+
+
 class StorageNotAllowed(Exception):
     def __init__(self):
         super(StorageNotAllowed, self).__init__("This file extension is not allowed.")
@@ -16,7 +20,7 @@ class StorageNotExists(Exception):
 class AbstractStorage(object):
     def __init__(self, app):
         self.app = app
-        self.allowed = app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())
+        self.allowed = list(map(str.lower, app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())))
         self.all_allowed = app.config.get("FILEUPLOAD_ALLOW_ALL_EXTENSIONS", False)
         self.snake_case = app.config.get("FILEUPLOAD_CONVERT_TO_SNAKE_CASE", False)
 
@@ -42,8 +46,33 @@ class AbstractStorage(object):
         """
         raise NotImplementedError()
 
-    def store(self, filename, file_data):
+    def _store(self, filename, file_data):
         raise NotImplementedError()
 
-    def delete(self, filename):
+    def _delete(self, filename):
         raise NotImplementedError()
+
+    @staticmethod
+    def _lower_file_extension(filename):
+        last_dot = filename.rfind(".")
+        if last_dot == -1:
+            raise StorageNotAllowed()
+        extension = filename[last_dot:].lower()
+        if not len(extension):
+            raise StorageNotAllowed()
+        return filename[:last_dot] + extension
+
+    def store(self, filename, file_data):
+        filename = secure_filename(filename)
+        filename = AbstractStorage._lower_file_extension(filename)
+        if self.snake_case:
+            filename = convert_to_snake_case(filename)
+
+        if self.all_allowed or any(filename.endswith('.' + x) for x in self.allowed):
+            self._store(filename, file_data)
+        else:
+            raise StorageNotAllowed()
+
+    def delete(self, filename):
+        filename = AbstractStorage._lower_file_extension(filename)
+        self._delete(filename)
