@@ -61,7 +61,7 @@ class TestPermissions(TestCase):
         with pytest.raises(StorageNotAllowed):
             self.ffu.storage.store("dummy.PNG", self.fs)
 
-        self.ffu.storage.lower_file_extension = True
+        self.ffu.storage.store_lower_file_extension = True
         self.ffu.storage.store("dummy.jPg", self.fs)
         self.ffu.storage.store("dummy.PNG", self.fs)
 
