@@ -28,10 +28,11 @@ __Optional__
 FILEUPLOAD_LOCALSTORAGE_IMG_FOLDER = "folder"                         # Where to store the images if used the default LocalStorage
 FILEUPLOAD_PREFIX = "/any/prefix/u/want"                              # Blueprint prefix
 FILEUPLOAD_ALLOWED_EXTENSIONS = ["list", "of", "file", "extensions"]  # Allow only these extensions
-FILEUPLOAD_ALLOW_ALL_EXTENSIONS = True                                # Allow all extensions
-FILEUPLOAD_RANDOM_FILE_APPENDIX = True                                # Append a random 6 hash string to selected file
-FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                               # Converts filenames to snake_case
-FILEUPLOAD_STORE_LOWER_FILE_EXTENSION = True                          # Lowers fileextension before storing 
+FILEUPLOAD_ALLOW_ALL_EXTENSIONS = True                                # Allow all extensions (False)
+FILEUPLOAD_RANDOM_FILE_APPENDIX = True                                # Append a random 6 hash string to selected file (False)
+FILEUPLOAD_CONVERT_TO_SNAKE_CASE = True                               # Converts filenames to snake_case (False)
+FILEUPLOAD_STORE_LOWER_FILE_EXTENSION = True                          # Lowers fileextension before storing (False)
+FILEUPLOAD_CASE_SENSITIVE_EXTENSION = True                            # Case sensitive checks on allowed file extensions (False)
 ```
 
 __S3 Storage__

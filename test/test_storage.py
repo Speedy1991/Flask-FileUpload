@@ -55,6 +55,7 @@ class TestPermissions(TestCase):
             self.ffu.storage.delete("abc.de")
 
     def test_case_lower_extension(self):
+        self.ffu.storage.case_sensitive_extension = True
         with pytest.raises(StorageNotAllowed):
             self.ffu.storage.store("dummy.jPg", self.fs)
         with pytest.raises(StorageNotAllowed):
@@ -68,3 +69,12 @@ class TestPermissions(TestCase):
         self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.jpg")))
         with pytest.raises(StorageExists):
             self.ffu.storage.store("dummy.jpg", self.fs)
+
+    def test_case_sensitive_extensions(self):
+        self.ffu.storage.store("dummy.PNG", self.fs)
+        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.PNG")))
+
+        self.ffu.storage.case_sensitive_extension = True
+        with pytest.raises(StorageNotAllowed):
+            self.ffu.storage.store("dummy2.PNG", self.fs)
+        self.assertFalse(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy2.PNG")))

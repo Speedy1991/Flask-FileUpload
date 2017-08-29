@@ -1,5 +1,5 @@
 from werkzeug.utils import secure_filename
-from .utils import convert_to_snake_case, lower_file_extension, InvalidExtension
+from .utils import convert_to_snake_case, lower_file_extension, InvalidExtension, split_filename
 
 
 class StorageNotAllowed(Exception):
@@ -20,7 +20,10 @@ class StorageNotExists(Exception):
 class AbstractStorage(object):
     def __init__(self, app):
         self.app = app
+        self.case_sensitive_extension = app.config.get("FILEUPLOAD_CASE_SENSITIVE_EXTENSION", False)
         self.allowed = app.config.get("FILEUPLOAD_ALLOWED_EXTENSIONS", list())
+        if not self.case_sensitive_extension:
+            self.allowed = list(map(str.lower, self.allowed))
         self.all_allowed = app.config.get("FILEUPLOAD_ALLOW_ALL_EXTENSIONS", False)
         self.snake_case = app.config.get("FILEUPLOAD_CONVERT_TO_SNAKE_CASE", False)
         self.lower_file_extension = app.config.get("FILEUPLOAD_STORE_LOWER_FILE_EXTENSION", False)
@@ -60,13 +63,24 @@ class AbstractStorage(object):
                 filename = lower_file_extension(filename)
             except InvalidExtension:
                 raise StorageNotAllowed()
+
         if self.snake_case:
             filename = convert_to_snake_case(filename)
 
-        if self.all_allowed or any(filename.endswith('.' + x) for x in self.allowed):
+        if self.all_allowed:
             self._store(filename, file_data)
-        else:
-            raise StorageNotAllowed()
+            return
+
+        extension = split_filename(filename)[1][1:]
+        if self.case_sensitive_extension and extension in self.allowed:
+            self._store(filename, file_data)
+            return
+
+        if not self.case_sensitive_extension and extension.lower() in self.allowed:
+            self._store(filename, file_data)
+            return
+
+        raise StorageNotAllowed()
 
     def delete(self, filename):
         self._delete(filename)
