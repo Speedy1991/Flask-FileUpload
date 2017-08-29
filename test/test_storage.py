@@ -6,7 +6,7 @@ import shutil
 import io
 from werkzeug.datastructures import FileStorage
 import pytest
-from flask_fileupload.storage import StorageExists, StorageNotAllowed, StorageNotExists, AbstractStorage
+from flask_fileupload.storage import StorageExists, StorageNotAllowed, StorageNotExists
 import os
 
 
@@ -28,17 +28,6 @@ class TestPermissions(TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.ffu.storage.abs_img_folder, ignore_errors=True)
-
-    def test_snake_case(self):
-        self.ffu.storage.store("dummyAbc.png", self.fs)
-        self.assertFalse(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummyAbc.png")))
-        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy_abc.png")))
-        self.ffu.storage.store("dummyEFG.png", self.fs)
-        self.assertFalse(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummyEFG.png")))
-        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy_efg.png")))
-        self.ffu.storage.store("dummyHiJ.png", self.fs)
-        self.assertFalse(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummyHiJ.png")))
-        self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy_hi_j.png")))
 
     def test_store_file(self):
         self.ffu.storage.store("dummy.jpg", self.fs)
@@ -65,21 +54,17 @@ class TestPermissions(TestCase):
         with pytest.raises(StorageNotExists):
             self.ffu.storage.delete("abc.de")
 
-    def test_case_insensitive(self):
+    def test_case_lower_extension(self):
+        with pytest.raises(StorageNotAllowed):
+            self.ffu.storage.store("dummy.jPg", self.fs)
+        with pytest.raises(StorageNotAllowed):
+            self.ffu.storage.store("dummy.PNG", self.fs)
+
+        self.ffu.storage.lower_file_extension = True
         self.ffu.storage.store("dummy.jPg", self.fs)
         self.ffu.storage.store("dummy.PNG", self.fs)
+
         self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.png")))
         self.assertTrue(os.path.exists(os.path.join(self.ffu.storage.abs_img_folder, "dummy.jpg")))
         with pytest.raises(StorageExists):
             self.ffu.storage.store("dummy.jpg", self.fs)
-
-    def test_lower_file_extension(self):
-        self.assertEqual(AbstractStorage._lower_file_extension("dummy.png"), "dummy.png")
-        self.assertEqual(AbstractStorage._lower_file_extension("dummy.pNg"), "dummy.png")
-        self.assertEqual(AbstractStorage._lower_file_extension("dummy.PNg"), "dummy.png")
-        self.assertEqual(AbstractStorage._lower_file_extension("dummy.PNG"), "dummy.png")
-
-        with pytest.raises(StorageNotAllowed):
-            AbstractStorage._lower_file_extension("dummypng")
-        with pytest.raises(StorageNotAllowed):
-            AbstractStorage._lower_file_extension("dummypng.")
