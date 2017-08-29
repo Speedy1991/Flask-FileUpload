@@ -19,7 +19,7 @@ def get_requirements(suffix=''):
 
 setup(
     name='Flask-FileUpload',
-    version="0.5.0",
+    version="0.5.1",
     url='https://github.com/speedy1991/Flask-FileUpload',
     license='MIT',
     author='Arthur Holzner',
