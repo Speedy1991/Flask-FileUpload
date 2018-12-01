@@ -9,6 +9,8 @@ A simple file upload flask extension.
 - Easy link copy
 - Delete and Upload with 3 clicks
 - Renaming of the file before uploading
+- AWS S3 support
+- Google Cloud Storage support
 
 Install
 -------
@@ -49,6 +51,25 @@ __S3 permission options:__
 - bucket-owner-read
 - bucket-owner-full-control
 
+__Google Cloud Storage__
+```python
+FILEUPLOAD_GCS_BUCKET = 'sample-bucket-name'                         # name of the GCS bucket
+FILEUPLOAD_GCS_ACL = 'publicRead'                                    # GCS permissions
+FILEUPLOAD_GCS_STORAGE_CLASS = 'REGIONAL'                            # bucket storage class
+FILEUPLOAD_GCS_BUCKET_LOCATION = 'us-west2'                          # bucket location
+```
+
+__Google Cloud Storage permission options:__
+
+- private
+- bucketOwnerRead
+- bucketOwnerFullControl
+- projectPrivate
+- authenticatedRead
+- publicRead
+- publicReadWrite
+
+### [Google Cloud Storage usage documentation](doc/google_cloud_storage.md)
 
 jinja2 method and filter 
 ------------------------
