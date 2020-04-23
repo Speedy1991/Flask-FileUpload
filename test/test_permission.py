@@ -12,9 +12,14 @@ class TestPermissions(TestCase):
         self.app.config["WTF_CSRF_ENABLED"] = False
         self.app.config['TESTING'] = True
 
-        self.login_manager = LoginManager(self.app)
+        login_manager = LoginManager(self.app)
+        
+        @login_manager.user_loader
+        def load_user(user_id):
+            return None
+        
+        self.login_manager = login_manager
         self.ffu = FlaskFileUpload(self.app)
-
         self.client = self.app.test_client()
 
     def test_permissions(self):
