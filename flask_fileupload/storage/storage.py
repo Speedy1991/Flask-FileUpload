@@ -1,9 +1,7 @@
 import os
 
-from werkzeug.utils import secure_filename
 from flask import url_for
-from .utils import convert_to_snake_case
-from . import AbstractStorage, StorageExists, StorageNotExists, StorageNotAllowed
+from . import AbstractStorage, StorageExists, StorageNotExists
 
 
 class LocalStorage(AbstractStorage):
@@ -22,24 +20,13 @@ class LocalStorage(AbstractStorage):
     def get_base_path(self):
         return url_for("static", filename=self.img_folder)
 
-    def store(self, filename, file_data):
-        filename = secure_filename(filename)
-        if self.snake_case:
-            filename = convert_to_snake_case(filename)
-
+    def _store(self, filename, file_data):
         if filename in self.get_existing_files():
             raise StorageExists()
-
-        if self.all_allowed or any(filename.endswith('.' + x) for x in self.allowed):
-            file_data.save(os.path.join(self.abs_img_folder, filename))
-        else:
-            raise StorageNotAllowed()
-
+        file_data.save(os.path.join(self.abs_img_folder, filename))
         return filename
 
-    def delete(self, filename):
-        existing_files = self.get_existing_files()
-        if filename not in existing_files:
+    def _delete(self, filename):
+        if filename not in self.get_existing_files():
             raise StorageNotExists()
-        else:
-            os.remove(os.path.join(self.abs_img_folder, filename))
+        os.remove(os.path.join(self.abs_img_folder, filename))

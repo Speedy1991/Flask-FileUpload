@@ -1,3 +1,6 @@
+### 0.5.1
+- Fix for #13 (PR #14)
+
 ### 0.5.0
 - Added S3 Storage (Thank you @gouthambs)
 
